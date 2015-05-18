@@ -19,7 +19,7 @@ package codec
 import (
 	"testing"
 
-	vmsgpack "github.com/vmihailenco/msgpack"
+	vmsgpack "gopkg.in/vmihailenco/msgpack.v2"
 	"labix.org/v2/mgo/bson"
 )
 

@@ -12,15 +12,15 @@ package codec
 //   - Uncomment first line in this file (put // // in front of it)
 //   - Get those packages:
 //       go get github.com/vmihailenco/msgpack
-//       go get labix.org/v2/mgo/bson
+//       go get gopkg.in/mgo.v2/bson
 //   - Run:
 //       go test -bi -bench=.
 
 import (
 	"testing"
 
+	"gopkg.in/mgo.v2/bson"
 	vmsgpack "gopkg.in/vmihailenco/msgpack.v2"
-	"labix.org/v2/mgo/bson"
 )
 
 func init() {

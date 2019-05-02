@@ -698,6 +698,34 @@ func testCodecMiscOne(t *testing.T, h Handle) {
 		var ya = ystruct{}
 		testUnmarshalErr(&ya, []byte{0x91, 0x90}, h, t, "ya")
 	}
+
+	// test omitempty and nested structs
+	type omitN struct {
+		A *bool
+	}
+	type omitS struct {
+		N *omitN `codec:",omitempty"`
+	}
+	trueV, falseV := true, false
+	var omits = []omitS{
+		{},
+		{&omitN{A: &trueV}},
+		{&omitN{A: &falseV}},
+	}
+	for _, omitA := range omits {
+		bs, err := testMarshalErr(omitA, h, t, "omitA")
+		if err != nil {
+			logT(t, "error marshalling omitA: %v", err)
+			t.FailNow()
+		}
+		var omit2 omitS
+		err = testUnmarshalErr(&omit2, bs, h, t, "omit2")
+		if err != nil {
+			logT(t, "error unmarshalling omit2: %v", err)
+			t.FailNow()
+		}
+		checkEqualT(t, omitA, omit2, "omitA=omit2")
+	}
 }
 
 func testCodecEmbeddedPointer(t *testing.T, h Handle) {

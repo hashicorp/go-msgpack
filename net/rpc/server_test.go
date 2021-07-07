@@ -133,7 +133,7 @@ func startServer() {
 }
 
 func startNewServer() {
-	newServer = NewServer()
+	newServer = NewServer(nil)
 	newServer.Register(new(Arith))
 	newServer.Register(new(Embed))
 	newServer.RegisterName("net.rpc.Arith", new(Arith))
@@ -687,7 +687,7 @@ func TestErrorAfterClientClose(t *testing.T) {
 
 // Tests the fix to issue 11221. Without the fix, this loops forever or crashes.
 func TestAcceptExitAfterListenerClose(t *testing.T) {
-	newServer := NewServer()
+	newServer := NewServer(nil)
 	newServer.Register(new(Arith))
 	newServer.RegisterName("net.rpc.Arith", new(Arith))
 	newServer.RegisterName("newServer.Arith", new(Arith))
@@ -719,7 +719,7 @@ func TestShutdown(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	newServer := NewServer()
+	newServer := NewServer(nil)
 	newServer.Register(new(Arith))
 	go newServer.ServeConn(c1)
 

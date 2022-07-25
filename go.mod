@@ -1,5 +1,10 @@
 module github.com/hashicorp/go-msgpack
 
-go 1.13
+go 1.17
 
-require golang.org/x/tools v0.0.0-20190424220101-1e8e1cfdf96b
+require golang.org/x/tools v0.1.11
+
+require (
+	golang.org/x/mod v0.6.0-dev.0.20220419223038-86c51ed26bb4 // indirect
+	golang.org/x/sys v0.0.0-20211019181941-9d821ace8654 // indirect
+)

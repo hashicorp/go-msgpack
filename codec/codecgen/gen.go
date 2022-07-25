@@ -38,6 +38,8 @@ import (
 	"strings"
 	"text/template"
 	"time"
+
+	"golang.org/x/tools/go/packages"
 )
 
 const genCodecPkg = "codec1978" // keep this in sync with codec.genCodecPkg
@@ -76,7 +78,7 @@ func CodecGenTempWrite{{ .RandString }}() {
 		panic(err)
 	}
 	defer fout.Close()
-	
+
 	var typs []reflect.Type
 	var typ reflect.Type
 	var numfields int
@@ -375,4 +377,16 @@ func main() {
 		fmt.Fprintf(os.Stderr, "codecgen error: %v\n", err)
 		os.Exit(1)
 	}
+}
+
+func pkgPath(dir string) (string, error) {
+	pkgs, err := packages.Load(&packages.Config{Dir: dir}, ".")
+	if err != nil {
+		return "", err
+	}
+	if len(pkgs) != 1 {
+		return "", fmt.Errorf("Could not read package (%d package found)", len(pkgs))
+	}
+	pkg := pkgs[0]
+	return pkg.PkgPath, nil
 }

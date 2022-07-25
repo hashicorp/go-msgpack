@@ -1,9 +1,9 @@
 #!/bin/bash
 
-# download the code and all its dependencies 
+# download the code and all its dependencies
 _go_get() {
     go get -u \
-       "github.com/ugorji/go/codec" "github.com/ugorji/go/codec"/codecgen \
+       "github.com/hashicorp/go-msgpack/codec" "github.com/hashicorp/go-msgpack/codec"/codecgen \
        github.com/tinylib/msgp/msgp github.com/tinylib/msgp \
        github.com/pquerna/ffjson/ffjson github.com/pquerna/ffjson \
        github.com/Sereal/Sereal/Go/sereal \
@@ -13,6 +13,9 @@ _go_get() {
        gopkg.in/vmihailenco/msgpack.v2 \
        github.com/json-iterator/go \
        github.com/mailru/easyjson/...
+    go install github.com/tinylib/msgp@latest
+    go get github.com/mailru/easyjson && go install github.com/mailru/easyjson/...@latest
+    go install github.com/pquerna/ffjson@latest
 }
 
 # add generated tag to the top of each file
@@ -45,7 +48,7 @@ _gen() {
         echo "easyjson ... " &&
         easyjson -all -no_std_marshalers -omit_empty -output_filename e9.go v.go &&
         _prependbt e9.go values_easyjson${zsfx} &&
-        echo "ffjson ... " && 
+        echo "ffjson ... " &&
         ffjson -force-regenerate -reset-fields -w f9.go v.go &&
         _prependbt f9.go values_ffjson${zsfx} &&
         sed -i '' -e 's+ MarshalJSON(+ _MarshalJSON(+g' values_ffjson${zsfx} &&
@@ -59,7 +62,7 @@ _gen() {
 #
 # Basically, its a sequence of
 # go test -tags "alltests x safe codecgen generated" -bench "CodecSuite or AllSuite or XSuite" -benchmem
-# 
+#
 _suite() {
     local t="alltests x"
     local a=( "" "safe"  "notfastpath" "notfastpath safe" "codecgen" "codecgen safe")
@@ -104,4 +107,4 @@ then
 else
     echo "bench.sh must be run from the directory it resides in"
     _usage
-fi 
+fi

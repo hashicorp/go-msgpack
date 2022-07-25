@@ -605,7 +605,7 @@ func (x *BasicHandle) init(hh Handle) {
 	x.mu.Lock()
 	if x.inited == 0 {
 		x.be = hh.isBinary()
-		_, x.js = hh.(*JsonHandle)
+		x.js = false
 		x.n = hh.Name()[0]
 		atomic.StoreUint32(&x.inited, 1)
 	}
@@ -2717,3 +2717,20 @@ func xdebugf(pattern string, args ...interface{}) {
 // 	return string(tzname)
 // 	//return time.FixedZone(string(tzname), int(tzint)*60)
 // }
+
+func makeMapReflect(t reflect.Type, size int) reflect.Value {
+	if size < 0 {
+		return reflect.MakeMapWithSize(t, 4)
+	}
+	return reflect.MakeMapWithSize(t, size)
+}
+
+const reflectArrayOfSupported = true
+
+func reflectArrayOf(count int, elem reflect.Type) reflect.Type {
+	return reflect.ArrayOf(count, elem)
+}
+
+const allowSetUnexportedEmbeddedPtr = false
+
+const genCheckVendor = true

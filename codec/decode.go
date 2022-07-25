@@ -2352,11 +2352,6 @@ func newDecoder(h Handle) *Decoder {
 	d.hh = h
 	d.be = h.isBinary()
 	// NOTE: do not initialize d.n here. It is lazily initialized in d.naked()
-	var jh *JsonHandle
-	jh, d.js = h.(*JsonHandle)
-	if d.js {
-		d.jsms = jh.MapKeyAsString
-	}
 	d.esep = d.hh.hasElemSeparators()
 	if d.h.InternString {
 		d.is = make(map[string]string, 32)

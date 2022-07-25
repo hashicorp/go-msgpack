@@ -78,10 +78,6 @@ func (x ioWriterWrapper) Write(p []byte) (n int, err error) {
 var (
 	// testNoopH    = NoopHandle(8)
 	testMsgpackH = &MsgpackHandle{}
-	testBincH    = &BincHandle{}
-	testSimpleH  = &SimpleHandle{}
-	testCborH    = &CborHandle{}
-	testJsonH    = &JsonHandle{}
 
 	testHandles     []Handle
 	testPreInitFns  []func()
@@ -139,13 +135,9 @@ func init() {
 	testHEDs = make([]testHED, 0, 32)
 	testHandles = append(testHandles,
 		// testNoopH,
-		testMsgpackH, testBincH, testSimpleH, testCborH, testJsonH)
+		testMsgpackH)
 	// set ExplicitRelease on each handle
 	testMsgpackH.ExplicitRelease = true
-	testBincH.ExplicitRelease = true
-	testSimpleH.ExplicitRelease = true
-	testCborH.ExplicitRelease = true
-	testJsonH.ExplicitRelease = true
 
 	testInitFlags()
 	benchInitFlags()

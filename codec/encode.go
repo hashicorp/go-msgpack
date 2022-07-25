@@ -1297,7 +1297,7 @@ func (e *Encoder) resetCommon() {
 		// e.cr, _ = e.e.(containerStateRecv)
 	}
 	e.be = e.hh.isBinary()
-	_, e.js = e.hh.(*JsonHandle)
+	e.js = false
 	e.e.reset()
 	e.err = nil
 }

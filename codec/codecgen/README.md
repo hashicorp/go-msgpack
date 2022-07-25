@@ -9,7 +9,7 @@ Using codecgen is very straightforward.
 
 **Download and install the tool**
 
-`go get -u github.com/ugorji/go/codec/codecgen`
+`go get -u github.com/hashicorp/go-msgpack/codec/codecgen`
 
 **Run the tool on your files**
 
@@ -20,7 +20,7 @@ The command line format is:
 ```sh
 % codecgen -?
 Usage of codecgen:
-  -c="github.com/ugorji/go/codec": codec path
+  -c="github.com/hashicorp/go-msgpack/codec": codec path
   -o="": out file
   -r=".*": regex for type name to match
   -nr="": regex for type name to exclude
@@ -34,4 +34,3 @@ Usage of codecgen:
 
 Please see the [blog article](http://ugorji.net/blog/go-codecgen)
 for more information on how to use the tool.
-

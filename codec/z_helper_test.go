@@ -12,7 +12,6 @@ package codec
 import (
 	"errors"
 	"reflect"
-	"flag"
 	"testing"
 )
 
@@ -24,7 +23,6 @@ var (
 func init() {
 	testInitFlags()
 	benchInitFlags()
-	flag.Parse()
 	testInit()
 	benchInit()
 }
@@ -90,13 +88,13 @@ func approxDataSize(rv reflect.Value) (sum int) {
 			sum += approxDataSize(rv.MapIndex(mk))
 		}
 	case reflect.Struct:
-		//struct size already includes the full data size.
-		//sum += int(rv.Type().Size())
+		// struct size already includes the full data size.
+		// sum += int(rv.Type().Size())
 		for j := 0; j < rv.NumField(); j++ {
 			sum += approxDataSize(rv.Field(j))
 		}
 	default:
-		//pure value types
+		// pure value types
 		sum += int(rv.Type().Size())
 	}
 	return

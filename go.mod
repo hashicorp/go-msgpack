@@ -1,6 +1,6 @@
 module github.com/hashicorp/go-msgpack/v2
 
-go 1.13
+go 1.19
 
 require (
 	bitbucket.org/bodhisnarkva/cbor v0.0.0-20170201010848-113f42203c94
@@ -19,5 +19,16 @@ require (
 	gopkg.in/check.v1 v1.0.0-20201130134442-10cb98267c6c // indirect
 	gopkg.in/mgo.v2 v2.0.0-20190816093944-a6b53ec6cb22
 	gopkg.in/vmihailenco/msgpack.v2 v2.9.2
+)
+
+require (
+	github.com/golang/protobuf v1.3.1 // indirect
+	github.com/josharian/intern v1.0.0 // indirect
+	github.com/modern-go/concurrent v0.0.0-20180228061459-e0a39a4cb421 // indirect
+	github.com/modern-go/reflect2 v1.0.2 // indirect
+	github.com/philhofer/fwd v1.1.1 // indirect
+	golang.org/x/mod v0.3.0 // indirect
+	golang.org/x/net v0.0.0-20201021035429-f5854403a974 // indirect
+	golang.org/x/xerrors v0.0.0-20200804184101-5ec99f83aff1 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 )

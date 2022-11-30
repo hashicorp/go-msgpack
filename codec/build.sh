@@ -5,7 +5,7 @@
 
 _tests() {
     local gover=$( go version | cut -f 3 -d ' ' )
-    local a=( "" "safe"  "codecgen" )
+    local a=( "" "codecgen" )
     for i in "${a[@]}"
     do
         echo ">>>> TAGS: $i"
@@ -52,7 +52,7 @@ _build() {
         [ -e "gen${_gg}" ] && mv gen${_gg} gen${_gg}__${_zts}.bak
     fi
     rm -f gen-helper.generated.go gen.generated.go \
-       *safe.generated.go *_generated_test.go *.generated_ffjson_expose.go
+       *_generated_test.go *.generated_ffjson_expose.go
 
     cat > gen.generated.go <<EOF
 // +build codecgen.exec
@@ -120,7 +120,7 @@ EOF
         shared_test.go > bench/shared_test.go
 
     # explicitly return 0 if this passes, else return 1
-    go run -tags "safe codecgen.exec" gen-from-tmpl.generated.go &&
+    go run -tags "codecgen.exec" gen-from-tmpl.generated.go &&
         rm -f gen-from-tmpl.*generated.go &&
         return 0
     return 1

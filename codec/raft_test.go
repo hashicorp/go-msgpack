@@ -24,18 +24,18 @@ func serializeTests(t *testing.T, tests []testdata.SerializeTest) {
 	t.Helper()
 	for _, test := range tests {
 		t.Run(test.Name, func(t *testing.T) {
-			expected, err := hex.DecodeString(test.ExpectedBytesHex)
+			expected, err := hex.DecodeString(test.EncodedBytesHex)
 			if err != nil {
 				t.Fatal(err)
 			}
-			typ := reflect.TypeOf(test.Data)
+			typ := reflect.TypeOf(test.ExpectedData)
 			x := reflect.New(typ).Elem().Interface()
 
 			err = decodeMsgPack(expected, &x)
 			if err != nil {
 				t.Fatal(err)
 			}
-			if !reflect.DeepEqual(x, test.Data) {
+			if !reflect.DeepEqual(x, test.ExpectedData) {
 				// to help figure out what is different since the Logs are pointers
 				if aer, ok := x.(testdata.AppendEntriesRequest); ok {
 					for _, log := range aer.Entries {
@@ -44,7 +44,7 @@ func serializeTests(t *testing.T, tests []testdata.SerializeTest) {
 						}
 					}
 				}
-				t.Errorf("expected %#v but got %#v", test.Data, x)
+				t.Errorf("expected %#v but got %#v", test.ExpectedData, x)
 			}
 		})
 	}

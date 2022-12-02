@@ -80,7 +80,7 @@ type Configuration struct {
 }
 
 type SerializeTest struct {
-	Name             string
-	ExpectedBytesHex string
-	Data             interface{}
+	Name            string
+	EncodedBytesHex string
+	ExpectedData    interface{}
 }

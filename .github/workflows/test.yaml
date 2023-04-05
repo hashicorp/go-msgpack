@@ -9,7 +9,7 @@ jobs:
     outputs:
       go-version: ${{ steps.get-go-version.outputs.go-version }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # v3.3.0
       - name: Determine Go version
         id: get-go-version
         run: |
@@ -21,8 +21,8 @@ jobs:
     runs-on: ubuntu-latest
     needs: [get-go-version]
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-go@v3
+      - uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # v3.3.0
+      - uses: actions/setup-go@6edd4406fa81c3da01a34fa6f6343087c207a568 # v3.5.0
         with:
           go-version: ${{ needs.get-go-version.outputs.go-version }}
       - run: 'exit $(( $(gofmt -s -l . | wc -l) != 0 ))'
@@ -32,8 +32,8 @@ jobs:
     runs-on: ubuntu-latest
     needs: [get-go-version]
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-go@v3
+      - uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # v3.3.0
+      - uses: actions/setup-go@6edd4406fa81c3da01a34fa6f6343087c207a568 # v3.5.0
         with:
           go-version: ${{ needs.get-go-version.outputs.go-version }}
       - run: go test -v ./codec

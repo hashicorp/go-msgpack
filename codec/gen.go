@@ -1,3 +1,4 @@
+//go:build codecgen.exec
 // +build codecgen.exec
 
 // Copyright (c) 2012-2018 Ugorji Nwoke. All rights reserved.
@@ -7,7 +8,7 @@ package codec
 
 import (
 	"bytes"
-	"encoding/base64"
+	"encoding/base32"
 	"errors"
 	"fmt"
 	"go/format"
@@ -98,7 +99,9 @@ import (
 // v1: Initial Version
 // v2:
 // v3: Changes for Kubernetes:
-//     changes in signature of some unpublished helper methods and codecgen cmdline arguments.
+//
+//	changes in signature of some unpublished helper methods and codecgen cmdline arguments.
+//
 // v4: Removed separator support from (en|de)cDriver, and refactored codec(gen)
 // v5: changes to support faster json decoding. Let encoder/decoder maintain state of collections.
 // v6: removed unsafe from gen, and now uses codecgen.exec tag
@@ -137,7 +140,7 @@ var (
 	errGenAllTypesSamePkg  = errors.New("All types must be in the same package")
 	errGenExpectArrayOrMap = errors.New("unexpected type. Expecting array/map/slice")
 
-	genBase64enc  = base64.NewEncoding("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789__")
+	genBase64enc  = base32.NewEncoding("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdef")
 	genQNameRegex = regexp.MustCompile(`[A-Za-z_.]+`)
 )
 

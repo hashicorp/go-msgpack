@@ -1,6 +1,6 @@
 module github.com/hashicorp/go-msgpack/v2
 
-go 1.25
+go 1.25.1
 
 require (
 	github.com/Sereal/Sereal/Go/sereal v0.0.0-20231009093132-b9187f1a92c6

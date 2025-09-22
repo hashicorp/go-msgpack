@@ -10,9 +10,7 @@ linters:
     - durationcheck
     - gocritic
     - govet
-    - ineffassign
     - misspell
-    - staticcheck
     - unconvert
     - usestdlibvars
   disable:

@@ -29,7 +29,7 @@ jobs:
         with:
           go-version: ${{ needs.get-go-version.outputs.go-version }}
       - name: Check formatting
-        run: 'exit $(( $(gofmt -s -l . | wc -l) != 0 ))'
+        run: "exit $(( $(gofmt -s -l . | wc -l) != 0 ))"
 
   test:
     name: codec test
@@ -44,6 +44,8 @@ jobs:
           go-version: ${{ needs.get-go-version.outputs.go-version }}
       - name: Run golangci-lint
         uses: golangci/golangci-lint-action@08e2f20817b15149a52b5b3ebe7de50aff2ba8c5
+        with:
+          version: v2.5.0
       - run: go test -v ./codec
       - run: go test -tags codecgen.exec -v ./codec
       - name: Generate coverage report

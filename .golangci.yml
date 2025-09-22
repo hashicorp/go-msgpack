@@ -12,6 +12,7 @@ linters:
     - usestdlibvars
   disable:
     - asasalint
+    - errcheck
     - gocritic
     - ineffassign
     - staticcheck

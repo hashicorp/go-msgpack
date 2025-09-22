@@ -1,22 +1,22 @@
 version: "2"
 linters:
   enable:
-    - asasalint
     - asciicheck
     - bidichk
     - bodyclose
     - copyloopvar
     - dogsled
     - durationcheck
-    - gocritic
     - govet
     - misspell
-    - unconvert
     - usestdlibvars
   disable:
-    - unused
+    - asasalint
+    - gocritic
     - ineffassign
     - staticcheck
+    - unconvert
+    - unused
 output:
   formats:
     text:

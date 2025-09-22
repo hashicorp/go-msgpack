@@ -1,9 +1,26 @@
+version: "2"
 linters:
- enable:
-   - errcheck
-   - gosimple
- disable:
-   - unused
-   - ineffassign
-   - staticcheck
-output_format: colored-line-number
+  enable:
+    - asciicheck
+    - bidichk
+    - bodyclose
+    - copyloopvar
+    - dogsled
+    - durationcheck
+    - govet
+    - misspell
+    - usestdlibvars
+  disable:
+    - asasalint
+    - errcheck
+    - gocritic
+    - ineffassign
+    - staticcheck
+    - unconvert
+    - unused
+output:
+  formats:
+    text:
+      path: stdout
+      print-linter-name: true
+      print-issued-lines: true

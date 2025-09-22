@@ -1,9 +1,15 @@
+version: "2"
 linters:
- enable:
-   - errcheck
-   - gosimple
- disable:
-   - unused
-   - ineffassign
-   - staticcheck
-output_format: colored-line-number
+  enable:
+    - errcheck
+    - gosimple
+  disable:
+    - unused
+    - ineffassign
+    - staticcheck
+output:
+  formats:
+    text:
+      path: stdout
+      print-linter-name: true
+      print-issued-lines: true

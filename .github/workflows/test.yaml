@@ -49,7 +49,7 @@ jobs:
       - run: go test -v ./codec
       - run: go test -tags codecgen.exec -v ./codec
       - name: Generate coverage report
-        run: go env -w GOTOOLCHAIN=go1.25.1+auto && go test -v -coverprofile=coverage.out ./...
+        run: go test -v -coverprofile=coverage.out ./...
       - name: Upload coverage report
         uses: actions/upload-artifact@65462800fd760344b1a7b4382951275a0abb4808
         with:

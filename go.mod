@@ -2,6 +2,8 @@ module github.com/hashicorp/go-msgpack/v2
 
 go 1.24.0
 
+toolchain go1.24.7
+
 retract v2.1.4 // Contains unnecessarily high go 1.25.1 build requirement
 
 require (

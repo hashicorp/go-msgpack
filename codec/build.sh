@@ -1,4 +1,7 @@
 #!/bin/bash
+# Copyright IBM Corp. 2013, 2025
+# SPDX-License-Identifier: MIT
+
 
 # Run all the different permutations of all the tests and other things
 # This helps ensure that nothing gets broken.

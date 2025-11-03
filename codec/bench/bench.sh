@@ -1,4 +1,7 @@
 #!/bin/bash
+# Copyright IBM Corp. 2013, 2025
+# SPDX-License-Identifier: MIT
+
 
 # download the code and all its dependencies
 _go_get() {

@@ -1,3 +1,6 @@
+// Copyright IBM Corp. 2013, 2025
+// SPDX-License-Identifier: MIT
+
 //go:build codecgen || generated
 // +build codecgen generated
 

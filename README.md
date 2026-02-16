@@ -5,7 +5,7 @@ This repository contains the `go-msgpack` library.
 To install:
 
 ```
-go get github.com/hashicorp/go-msgpack/codec
+go get github.com/hashicorp/go-msgpack/v2/codec
 ```
 
 # Package Documentation

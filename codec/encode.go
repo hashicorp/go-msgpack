@@ -607,7 +607,7 @@ func (e *Encoder) kSlice(f *codecFnInfo, rv reflect.Value) {
 
 	if l > 0 {
 		var fn *codecFn
-		for rtelem.Kind() == reflect.Ptr {
+		for rtelem.Kind() == reflect.Pointer {
 			rtelem = rtelem.Elem()
 		}
 		// if kind is reflect.Interface, do not pre-determine the
@@ -749,7 +749,7 @@ func (e *Encoder) kStruct(f *codecFnInfo, rv reflect.Value) {
 			// if a reference or struct, set to nil (so you do not output too much)
 			if si.omitEmpty() && isEmptyValue(kv.r, e.h.TypeInfos, recur, recur) {
 				switch kv.r.Kind() {
-				case reflect.Struct, reflect.Interface, reflect.Ptr,
+				case reflect.Struct, reflect.Interface, reflect.Pointer,
 					reflect.Array, reflect.Map, reflect.Slice:
 					kv.r = reflect.Value{} //encode as nil
 				}
@@ -848,7 +848,7 @@ func (e *Encoder) kMap(f *codecFnInfo, rv reflect.Value) {
 	rtval0 := ti.elem
 	rtval := rtval0
 	// rtkeyid := rt2id(rtkey0)
-	for rtval.Kind() == reflect.Ptr {
+	for rtval.Kind() == reflect.Pointer {
 		rtval = rtval.Elem()
 	}
 	if rtval.Kind() != reflect.Interface {
@@ -864,7 +864,7 @@ func (e *Encoder) kMap(f *codecFnInfo, rv reflect.Value) {
 
 	var keyTypeIsString = stringTypId == rt2id(rtkey0) // rtkeyid
 	if !keyTypeIsString {
-		for rtkey.Kind() == reflect.Ptr {
+		for rtkey.Kind() == reflect.Pointer {
 			rtkey = rtkey.Elem()
 		}
 		if rtkey.Kind() != reflect.Interface {
@@ -1648,7 +1648,7 @@ func (e *Encoder) encodeValue(rv reflect.Value, fn *codecFn, checkFastpath bool)
 	var rvpValid bool
 TOP:
 	switch rv.Kind() {
-	case reflect.Ptr:
+	case reflect.Pointer:
 		if rv.IsNil() {
 			e.e.EncodeNil()
 			return

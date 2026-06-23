@@ -165,7 +165,7 @@ func init() {
 	pool.init()
 
 	refBitset.set(byte(reflect.Map))
-	refBitset.set(byte(reflect.Ptr))
+	refBitset.set(byte(reflect.Pointer))
 	refBitset.set(byte(reflect.Func))
 	refBitset.set(byte(reflect.Chan))
 }
@@ -434,7 +434,7 @@ var immutableKindsSet = [32]bool{
 	// reflect.Func: true,
 	// reflect.Interface
 	// reflect.Map
-	// reflect.Ptr
+	// reflect.Pointer
 	// reflect.Slice
 	reflect.String: true,
 	reflect.Struct: true,
@@ -740,7 +740,7 @@ func (x *BasicHandle) fn(rt reflect.Type, checkFastpath, checkCodecSelfer bool) 
 					fi.addrF = false // meaning it can be an address(ptr) or a value
 					xfnf2 := fastpathAV[idx].decfn
 					fn.fd = func(d *Decoder, xf *codecFnInfo, xrv reflect.Value) {
-						if xrv.Kind() == reflect.Ptr {
+						if xrv.Kind() == reflect.Pointer {
 							xfnf2(d, xf, xrv.Convert(reflect.PointerTo(xrt)))
 						} else {
 							xfnf2(d, xf, xrv.Convert(xrt))
@@ -832,7 +832,7 @@ func (x *BasicHandle) fn(rt reflect.Type, checkFastpath, checkCodecSelfer bool) 
 				fn.fd = (*Decoder).kInterface
 				fn.fe = (*Encoder).kErr
 			default:
-				// reflect.Ptr and reflect.Interface are handled already by preEncodeValue
+				// reflect.Pointer and reflect.Interface are handled already by preEncodeValue
 				fn.fe = (*Encoder).kErr
 				fn.fd = (*Decoder).kErr
 			}
@@ -1086,12 +1086,12 @@ func (o *extHandle) AddExt(rt reflect.Type, tag byte,
 func (o *extHandle) SetExt(rt reflect.Type, tag uint64, ext Ext) (err error) {
 	// o is a pointer, because we may need to initialize it
 	rk := rt.Kind()
-	for rk == reflect.Ptr {
+	for rk == reflect.Pointer {
 		rt = rt.Elem()
 		rk = rt.Kind()
 	}
 
-	if rt.PkgPath() == "" || rk == reflect.Interface { // || rk == reflect.Ptr {
+	if rt.PkgPath() == "" || rk == reflect.Interface { // || rk == reflect.Pointer {
 		return fmt.Errorf("codec.Handle.SetExt: Takes named type, not a pointer or interface: %v", rt)
 	}
 
@@ -1109,7 +1109,7 @@ func (o *extHandle) SetExt(rt reflect.Type, tag uint64, ext Ext) (err error) {
 			return
 		}
 	}
-	rtidptr := rt2id(reflect.PtrTo(rt))
+	rtidptr := rt2id(reflect.PointerTo(rt))
 	*o = append(o2, extTypeTagFn{rtid, rtidptr, rt, tag, ext, [1]uint64{}})
 	return
 }
@@ -1172,7 +1172,7 @@ func (o intf2impls) intf2impl(rtid uintptr) (rv reflect.Value) {
 			if v.impl == nil {
 				return
 			}
-			if v.impl.Kind() == reflect.Ptr {
+			if v.impl.Kind() == reflect.Pointer {
 				return reflect.New(v.impl.Elem())
 			}
 			return reflect.New(v.impl).Elem()
@@ -1387,7 +1387,7 @@ func (x *structFieldNode) field(si *structFieldInfo) (fv reflect.Value) {
 }
 
 func baseStructRv(v reflect.Value, update bool) (v2 reflect.Value, valid bool) {
-	for v.Kind() == reflect.Ptr {
+	for v.Kind() == reflect.Pointer {
 		if v.IsNil() {
 			if !update {
 				return
@@ -1568,7 +1568,7 @@ func (x *TypeInfos) get(rtid uintptr, rt reflect.Type) (pti *typeInfo) {
 
 	rk := rt.Kind()
 
-	if rk == reflect.Ptr { // || (rk == reflect.Interface && rtid != intfTypId) {
+	if rk == reflect.Pointer { // || (rk == reflect.Interface && rtid != intfTypId) {
 		panicv.errorf("invalid kind passed to TypeInfos.get: %v - %v", rk, rt)
 	}
 
@@ -1633,7 +1633,7 @@ func (x *TypeInfos) get(rtid uintptr, rt reflect.Type) (pti *typeInfo) {
 	case reflect.Chan:
 		ti.elem = rt.Elem()
 		ti.chandir = uint8(rt.ChanDir())
-	case reflect.Array, reflect.Ptr:
+	case reflect.Array, reflect.Pointer:
 		ti.elem = rt.Elem()
 	}
 	// sfi = sfiSrc
@@ -1702,8 +1702,8 @@ LOOP:
 		if f.Anonymous && fkind != reflect.Interface {
 			// ^^ redundant but ok: per go spec, an embedded pointer type cannot be to an interface
 			ft := f.Type
-			isPtr := ft.Kind() == reflect.Ptr
-			for ft.Kind() == reflect.Ptr {
+			isPtr := ft.Kind() == reflect.Pointer
+			for ft.Kind() == reflect.Pointer {
 				ft = ft.Elem()
 			}
 			isStruct := ft.Kind() == reflect.Struct
@@ -2689,7 +2689,7 @@ func isEmptyValue(v reflect.Value, tinfos *TypeInfos, deref, checkStruct bool) b
 		return v.Uint() == 0
 	case reflect.Float32, reflect.Float64:
 		return v.Float() == 0
-	case reflect.Interface, reflect.Ptr:
+	case reflect.Interface, reflect.Pointer:
 		if deref {
 			if v.IsNil() {
 				return true

@@ -1581,7 +1581,7 @@ func (d *Decoder) kSlice(f *codecFnInfo, rv reflect.Value) {
 	rtelem0Mut := !isImmutableKind(rtElem0Kind)
 	rtelem := rtelem0
 	rtelemkind := rtelem.Kind()
-	for rtelemkind == reflect.Ptr {
+	for rtelemkind == reflect.Pointer {
 		rtelem = rtelem.Elem()
 		rtelemkind = rtelem.Kind()
 	}
@@ -1661,7 +1661,7 @@ func (d *Decoder) kSlice(f *codecFnInfo, rv reflect.Value) {
 				rv.Send(reflect.Zero(rtelem0))
 				continue
 			}
-			if rtelem0Mut || !rv9.IsValid() { // || (rtElem0Kind == reflect.Ptr && rv9.IsNil()) {
+			if rtelem0Mut || !rv9.IsValid() { // || (rtElem0Kind == reflect.Pointer && rv9.IsNil()) {
 				rv9 = reflect.New(rtelem0).Elem()
 			}
 			if fn == nil {
@@ -1770,10 +1770,10 @@ func (d *Decoder) kMap(f *codecFnInfo, rv reflect.Value) {
 	var keyFn, valFn *codecFn
 	var ktypeLo, vtypeLo reflect.Type
 
-	for ktypeLo = ktype; ktypeLo.Kind() == reflect.Ptr; ktypeLo = ktypeLo.Elem() {
+	for ktypeLo = ktype; ktypeLo.Kind() == reflect.Pointer; ktypeLo = ktypeLo.Elem() {
 	}
 
-	for vtypeLo = vtype; vtypeLo.Kind() == reflect.Ptr; vtypeLo = vtypeLo.Elem() {
+	for vtypeLo = vtype; vtypeLo.Kind() == reflect.Pointer; vtypeLo = vtypeLo.Elem() {
 	}
 
 	var mapGet, mapSet bool
@@ -1783,7 +1783,7 @@ func (d *Decoder) kMap(f *codecFnInfo, rv reflect.Value) {
 		// if interface, mapGet = true if !DecodeNakedAlways (else false)
 		// if builtin, mapGet = false
 		// else mapGet = true
-		if vtypeKind == reflect.Ptr {
+		if vtypeKind == reflect.Pointer {
 			mapGet = true
 		} else if vtypeKind == reflect.Interface {
 			if !d.h.InterfaceReset {
@@ -1861,7 +1861,7 @@ func (d *Decoder) kMap(f *codecFnInfo, rv reflect.Value) {
 			rvv = rv.MapIndex(rvk)
 			if !rvv.IsValid() {
 				rvv = reflect.New(vtype).Elem()
-			} else if vtypeKind == reflect.Ptr {
+			} else if vtypeKind == reflect.Pointer {
 				if rvv.IsNil() {
 					rvv = reflect.New(vtype).Elem()
 				} else {
@@ -2775,7 +2775,7 @@ func (d *Decoder) decodeValue(rv reflect.Value, fn *codecFn, chkAll bool) {
 	// non-pointer value, and decode into that.
 	var rvp reflect.Value
 	var rvpValid bool
-	if rv.Kind() == reflect.Ptr {
+	if rv.Kind() == reflect.Pointer {
 		rvpValid = true
 		for {
 			if rv.IsNil() {
@@ -2783,7 +2783,7 @@ func (d *Decoder) decodeValue(rv reflect.Value, fn *codecFn, chkAll bool) {
 			}
 			rvp = rv
 			rv = rv.Elem()
-			if rv.Kind() != reflect.Ptr {
+			if rv.Kind() != reflect.Pointer {
 				break
 			}
 		}
@@ -2833,7 +2833,7 @@ func isDecodeable(rv reflect.Value) (rv2 reflect.Value, canDecode bool) {
 	switch rv.Kind() {
 	case reflect.Array:
 		return rv, rv.CanAddr()
-	case reflect.Ptr:
+	case reflect.Pointer:
 		if !rv.IsNil() {
 			return rv.Elem(), true
 		}

@@ -625,14 +625,14 @@ func testInit() {
 			"int32": int32(32323232),
 			"bool":  true,
 			"LONG STRING": `
-1234567890 1234567890 
-1234567890 1234567890 
-1234567890 1234567890 
-ABCDEDFGHIJKLMNOPQRSTUVWXYZ 
-abcdedfghijklmnopqrstuvwxyz 
-ABCDEDFGHIJKLMNOPQRSTUVWXYZ 
-abcdedfghijklmnopqrstuvwxyz 
-"ABCDEDFGHIJKLMNOPQRSTUVWXYZ" 
+1234567890 1234567890
+1234567890 1234567890
+1234567890 1234567890
+ABCDEDFGHIJKLMNOPQRSTUVWXYZ
+abcdedfghijklmnopqrstuvwxyz
+ABCDEDFGHIJKLMNOPQRSTUVWXYZ
+abcdedfghijklmnopqrstuvwxyz
+"ABCDEDFGHIJKLMNOPQRSTUVWXYZ"
 '	a tab	'
 \a\b\c\d\e
 \b\f\n\r\t all literally
@@ -899,7 +899,7 @@ func doTestCodecTableOne(t *testing.T, testNil bool, h Handle,
 		} else {
 			if v0 != nil {
 				v0rt := reflect.TypeOf(v0) // ptr
-				if v0rt.Kind() == reflect.Ptr {
+				if v0rt.Kind() == reflect.Pointer {
 					err = testUnmarshal(v0, b0, h)
 					v1 = v0
 				} else {
@@ -2095,7 +2095,7 @@ func testRandomFillRV(v reflect.Value) {
 
 	switch v.Kind() {
 	case reflect.Invalid:
-	case reflect.Ptr:
+	case reflect.Pointer:
 		if v.IsNil() {
 			v.Set(reflect.New(v.Type().Elem()))
 		}

@@ -25,7 +25,7 @@ func DeepEqual(v1, v2 interface{}) (err error) {
 func ApproxDataSize(rv reflect.Value) (sum int) {
 	switch rk := rv.Kind(); rk {
 	case reflect.Invalid:
-	case reflect.Ptr, reflect.Interface:
+	case reflect.Pointer, reflect.Interface:
 		sum += int(rv.Type().Size())
 		sum += ApproxDataSize(rv.Elem())
 	case reflect.Slice:

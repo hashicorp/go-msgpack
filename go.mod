@@ -1,8 +1,6 @@
 module github.com/hashicorp/go-msgpack/v2
 
-go 1.24.0
-
-toolchain go1.24.7
+go 1.25.0
 
 retract v2.1.4 // Contains unnecessarily high go 1.25.1 build requirement
 
@@ -28,7 +26,7 @@ require (
 	github.com/modern-go/reflect2 v1.0.2 // indirect
 	github.com/philhofer/fwd v1.1.2 // indirect
 	golang.org/x/mod v0.28.0 // indirect
-	golang.org/x/net v0.44.0 // indirect
+	golang.org/x/net v0.55.0 // indirect
 	golang.org/x/sync v0.17.0 // indirect
 	google.golang.org/appengine v1.6.7 // indirect
 	google.golang.org/protobuf v1.33.0 // indirect
